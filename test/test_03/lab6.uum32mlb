@@ -1,0 +1,157 @@
+﻿Outarr:	macro	&massive, &len
+	clear	x
+$outloop:	ld	a, &massive[x]
+$PrintNumber:	clear	r0
+	ld	r3, #-1	
+	push	r3	
+	compr	a, r0
+	jlt	$minus
+	mov	r2, a
+$pushdigit:	ld	r3, #10
+	divr	r2, r3
+	mulr	r3, r2
+	subr	a, r3
+	push	a
+	compr	r2, r0
+	jeq	$PrintN
+	mov	a, r2
+	jmp	$pushdigit
+$PrintN:	ld	r3, #-1
+$nextDigit:	pop	a
+	compr	a, r3
+	jeq	$endprint
+	add	a,#48
+	wd	#0
+	jmp	$nextDigit
+$minus:	clear	r2
+	subr	r2, a
+	ld	a, #45
+	wd	#0
+	mov	a, r2
+	jmp	$pushdigit
+$endprint:	ld	a,#32
+	wd	#0
+	add	x,#4
+	comp	x,&len
+	jlt	$outloop
+	ld	a,#10
+	wd	#0
+	ld	a,#13
+	wd	#0
+$oaend:	mend
+
+PrintNumber:	macro	&numb
+	ld	a,&numb
+	clear	r0
+	ld	r3, #-1	
+	push	r3	
+	compr	a, r0
+	jlt	$1minus
+	mov	r2, a
+$1pushdigit:	ld	r3, #10
+	divr	r2, r3
+	mulr	r3, r2
+	subr	a, r3
+	add	a, #48
+	push	a
+	compr	r2, r0
+	jeq	$1PrintN
+	mov	a, r2
+	jmp	$1pushdigit
+	
+$1PrintN:	ld	r3, #-1
+$1nextDigit:	pop	a
+	compr	a, r3
+	jeq	$1exitprn
+	wd	#0
+	jmp	$1nextDigit
+	
+$1minus:	clear	r2	
+	subr	r2, a	
+	ld	a, #45
+	wd	#0	
+	mov	a, r2	
+	jmp	$1pushdigit
+$1exitprn:	clear	a
+	mend
+	
+endl:	macro
+	ld	a,#10
+	wd	#0
+	ld	a,#13
+	wd	#0
+	mend
+	
+razdelitel1:	macro
+	clear	x
+	ld	r1,#57
+	ld	a,#42
+$next:	wd	#0
+	incr	x,r1
+	jlt	$next
+	
+	ld	a,#10
+	wd	#0
+	ld	a,#13
+	wd	#0
+	
+	ld	a,#42
+	wd	#0
+	
+	clear	x
+	ld	r1,#4
+	ld	a,#9
+$next2:	wd	#0
+	incr	x,r1
+	jlt	$next2
+	mend
+	
+razdelitel2:	macro	
+	clear	x
+	ld	r1,#4
+	ld	a,#9
+$next:	wd	#0
+	incr	x,r1
+	jlt	$next
+	
+	ld	a,#32
+	wd	#0
+	wd	#0
+
+	ld	a,#42
+	wd	#0
+	
+	ld	a,#10
+	wd	#0
+	ld	a,#13
+	wd	#0
+	
+	clear	x
+	ld	r1,#57
+	ld	a,#42
+$next2:	wd	#0
+	incr	x,r1
+	jlt	$next2
+	mend
+	
+poisk:	macro	&massive, &len
+	clear	x
+$poisk:	ld	a, &massive[x]
+	comp	a, #0
+	jgt	$continue
+	jlt	$continue
+	jmp	$found
+$found:	incr	r2, r2
+; Очередная итерация цикла
+$continue:	add	x,#4
+	comp	x, &len
+	jlt	$poisk
+$poiskend:	mend
+
+outp:	macro	&string, &len
+	clear	x
+$outpc:	ldb	a, &string[x]
+	wd	#0
+	incm	x, &len
+	jlt	$outpc
+	mend

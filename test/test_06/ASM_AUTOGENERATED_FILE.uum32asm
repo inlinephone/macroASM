@@ -1,0 +1,12 @@
+
+enter:	start	0
+
+	;-------- metka --------
+	jmp lbl_AA
+lbl_AA: jmp kek_AB
+kek_AB:
+	;-------- END OF metka--------
+
+ret
+
+end

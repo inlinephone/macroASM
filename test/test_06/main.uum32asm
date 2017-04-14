@@ -1,0 +1,12 @@
+; --< This file is created automatically by UUM-32 Macroassembler >--
+; --< Do not change or remove this comment >--
+ENTER:	START	0	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_06\main.uum32masm|3
+
+; MACRO	METKA
+	JMP	__LBL_0_0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_06\library.uum32mlb|2
+__LBL_0_0:	JMP	__KEK_0_0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_06\library.uum32mlb|3
+__KEK_0_0:	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_06\library.uum32mlb|4
+; MEND
+
+	RET	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_06\main.uum32masm|7
+	END	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_06\main.uum32masm|9

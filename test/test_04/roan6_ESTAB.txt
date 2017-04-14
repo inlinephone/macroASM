@@ -1,0 +1,2 @@
+NAME	| ADDRESS
+LAB6	| 0

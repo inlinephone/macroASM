@@ -1,0 +1,164 @@
+; --< This file is created automatically by UUM-32 Macroassembler >--
+; --< Do not change or remove this comment >--
+LAB6:	START	0	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_02\Lab6 (Uped).uum32masm|3
+
+; MACRO	OUTLOGO	LENLOGO,TXT_LOGO
+	CLEAR	X	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|10
+__M0CLOGO_0_0:	LDB	A,TXT_LOGO[X]	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|11
+	WD	#0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|12
+	INCM	X,#LENLOGO	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|13
+	JLT	__M0CLOGO_0_0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|14
+; MEND
+
+
+; MACRO	OUTSTR	LENABOUT,TXT_ABOUT
+	LD	R11,#LENABOUT	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|20
+	LD	X,#TXT_ABOUT	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|21
+	ADDR	R11,X	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|22
+__M0C_1_0:	+LDB	A,0[X]	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|23
+	WD	#0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|24
+	INCR	X,R11	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|25
+	JLT	__M0C_1_0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|26
+; MEND
+
+
+; MACRO	ALG	LENGTH,MASS
+	CLEAR	R0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|78
+	LD	R1,#-1	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|79
+	LD	R2,#2	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|80
+	LD	R3,#48	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|81
+	LD	R4,#4	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|82
+	LD	R10,#LENGTH	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|83
+	LD	X,#MASS	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|84
+	MOV	R11,X	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|85
+	ADDR	R11,R10	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|86
+	LD	R10,#10	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|87
+	CALL	MOUTSTACK	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|88
+	LD	X,#LENGTH	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|89
+	SUB	X,#4	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|90
+__LOAD_4_0:	+LD	A,MASS[X]	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|91
+__PROCESS_4_0:	COMPR	A,R0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|92
+	JLT	__ABS_4_0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|93
+	MOV	R5,A	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|94
+	DIVR	A,R2	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|95
+	MULR	A,R2	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|96
+	INCR	A,R5	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|97
+	JEQ	__RES_4_0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|98
+	SUBR	X,R4	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|99
+	COMPR	X,R1	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|100
+	JGT	__LOAD_4_0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|101
+	JMP	__RES_4_0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|102
+__ABS_4_0:	MULR	A,R1	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|104
+	JMP	__PROCESS_4_0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|105
+__RES_4_0:	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|106
+; MEND
+
+	LD	R2,MASS[X]	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_02\Lab6 (Uped).uum32masm|26
+	MOV	A,X	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_02\Lab6 (Uped).uum32masm|27
+	COMPR	A,R0	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_02\Lab6 (Uped).uum32masm|28
+	JLT	MESSAGE1	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_02\Lab6 (Uped).uum32masm|29
+	MOV	A,X	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_02\Lab6 (Uped).uum32masm|30
+	DIVR	A,R4	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_02\Lab6 (Uped).uum32masm|31
+	ADD	A,#1	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_02\Lab6 (Uped).uum32masm|32
+	MOV	R6,A	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_02\Lab6 (Uped).uum32masm|33
+	JMP	MESSAGE3	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_02\Lab6 (Uped).uum32masm|34
+MESSAGE1:	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_02\Lab6 (Uped).uum32masm|35
+
+; MACRO	OUTSTR	LEN0,TXT_0
+	LD	R11,#LEN0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|20
+	LD	X,#TXT_0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|21
+	ADDR	R11,X	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|22
+__M0C_1_1:	+LDB	A,0[X]	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|23
+	WD	#0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|24
+	INCR	X,R11	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|25
+	JLT	__M0C_1_1	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|26
+; MEND
+
+	RET	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_02\Lab6 (Uped).uum32masm|37
+MESSAGE3:	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_02\Lab6 (Uped).uum32masm|38
+
+; MACRO	OUTSTR	LENOK,TXT_OK
+	LD	R11,#LENOK	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|20
+	LD	X,#TXT_OK	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|21
+	ADDR	R11,X	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|22
+__M0C_1_2:	+LDB	A,0[X]	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|23
+	WD	#0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|24
+	INCR	X,R11	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|25
+	JLT	__M0C_1_2	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|26
+; MEND
+
+	MOV	R7,R6	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_02\Lab6 (Uped).uum32masm|40
+	CALL	OUTSTACK	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_02\Lab6 (Uped).uum32masm|41
+
+; MACRO	OUTSTR	LENOK2,TXT_OK2
+	LD	R11,#LENOK2	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|20
+	LD	X,#TXT_OK2	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|21
+	ADDR	R11,X	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|22
+__M0C_1_3:	+LDB	A,0[X]	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|23
+	WD	#0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|24
+	INCR	X,R11	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|25
+	JLT	__M0C_1_3	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|26
+; MEND
+
+	MOV	R7,R2	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_02\Lab6 (Uped).uum32masm|43
+	CALL	OUTSTACK	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_02\Lab6 (Uped).uum32masm|44
+	RET	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_02\Lab6 (Uped).uum32masm|45
+OUTSTACK:	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_02\Lab6 (Uped).uum32masm|47
+
+; MACRO	OUTNUM
+	CLEAR	R8	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|32
+	COMPR	R7,R0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|33
+	JLT	__PUTMINUS_2_0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|34
+__CICLE_2_0:	MOV	R5,R7	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|35
+	DIVR	R7,R10	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|36
+	MOV	A,R7	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|37
+	MULR	A,R10	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|38
+	SUBR	R5,A	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|39
+	MOV	A,R5	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|40
+	PUSH	A	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|41
+	ADD	R8,#1	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|42
+	COMPR	R7,R0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|43
+	JGT	__CICLE_2_0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|44
+	JMP	__EXTRACT_2_0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|45
+__PUTMINUS_2_0:	LDB	A,#45	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|46
+	WD	#0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|47
+	MULR	R7,R1	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|48
+	JMP	__CICLE_2_0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|49
+__EXTRACT_2_0:	POP	A	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|50
+	ADDR	A,R3	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|51
+	WD	#0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|52
+	SUB	R8,#1	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|53
+	COMPR	R8,R0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|54
+	JGT	__EXTRACT_2_0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|55
+	RET	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|56
+; MEND
+
+MOUTSTACK:	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_02\Lab6 (Uped).uum32masm|49
+
+; MACRO	OUTMASS
+	JMP	__OUTMSS_3_0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|62
+__BEFOREPART_3_0:	LDB	A,#44	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|63
+	WD	#0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|64
+	LDB	A,#32	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|65
+	WD	#0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|66
+__OUTMSS_3_0:	+LD	R7,0[X]	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|67
+	CALL	OUTSTACK	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|68
+	ADD	X,#4	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|69
+	COMPR	X,R11	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|70
+	JLT	__BEFOREPART_3_0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|71
+	RET	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_02\lab6(lib).uum32mlb|72
+; MEND
+
+MASS:	WORD	1,2,-3,4,5,-6,7,8,-9,10,11,-12,13	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_02\Lab6 (Uped).uum32masm|53
+LENGTH:	EQU	*-MASS	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_02\Lab6 (Uped).uum32masm|60
+TXT_0:	BYTE	')',10,'В результате работы программы обнаружено, что в массиве нет нечетных элементов!'	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_02\Lab6 (Uped).uum32masm|61
+LEN0:	EQU	*-TXT_0	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_02\Lab6 (Uped).uum32masm|62
+TXT_OK:	BYTE	')',10,'В результате работы программы обнаружено, что номер последнего нечетного элемента = '	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_02\Lab6 (Uped).uum32masm|63
+LENOK:	EQU	*-TXT_OK	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_02\Lab6 (Uped).uum32masm|64
+TXT_OK2:	BYTE	' и его значение = '	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_02\Lab6 (Uped).uum32masm|65
+LENOK2:	EQU	*-TXT_OK2	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_02\Lab6 (Uped).uum32masm|66
+TXT_ABOUT:	BYTE	'Задача: Определить номер последнего нечетного элемента в массиве из 13 целочисленных констант.',10,'На ввод был подан массив:',10,'MASS( '	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_02\Lab6 (Uped).uum32masm|67
+LENABOUT:	EQU	*-TXT_ABOUT	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_02\Lab6 (Uped).uum32masm|68
+TXT_LOGO:	BYTE	'_________Z',10,'________ZZZ',10,'______Z_ZZZZZ',10,'______ZZZZZZZZZ',10,'_______ZZZZZAZZZZ',10,'________ZZZZZZZZZZZZ',10,'_________ZZZZZZZZZ',10,'_________ZZZZZZZZZ',10,'__________ZZZZZZZZZZ',10,'_________ZZZZZZZZZZZZ',10,'_________ZZZZZZZZZZZZZZ',10,'_________ZZZZZZZZZZZZZZZ',10,'_________ZZZZZZZZZZZZZZZZZZ',10,'_________ZZZZZZZZZZZZZZZZZZZZ',10,'_________ZZZZZZZZZZZZZZZZZZZZZ',10,'__________ZZZZZZZZZZZZZZZZZZZZZZZZ',10,'___________ZZZZZZZZZZZZZZZZZZZZZZZZZZZZ',10,'___________ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ',10,'_____________ZZZZZZZZZZZZZZZZZZZZZZZZZZZZ',10,'______________ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ',10,'______________ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ',10,'_______________ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ',10,'_______________ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ',10,'________________ZZZZZ__ZZZ____ZZZZZZZZZZZZZZZZZZZ',10,'_________________ZZZ___ZZZ_____ZZZZZZZZZZZZZZZZZZZ',10,'_________________ZZZ___ZZZ_____ZZZZZZZZZZZZZZZZZZZZZZ___ZZ',10,'_________________ZZZ___ZZZ______ZZZZZZZZZZZZZZ_ZZZZZZZZZZZ',10,'_________________ZZ___ZZZ______ZZZZZZZZZZZZZZZ_ZZZZZZZZZZ',10,'________________ZZZZ___ZZ_________ZZZZZ_Z__ZZZZZ',10,'___________ZZZZZZZ_Z__ZZZ__________ZZZZZZ____ZZZ',10,'________ZZZZZZZZZZZZZZZZ_____________ZZZ_Z___ZZZ',10,'____ZZZZZZZZZZZZZZZZZZZZZZZZ_________ZZZZ_____ZZZ',10,'___ZZZZZZZZZZZZZZZZZZZZZZZZZZZZ______ZZZZ______ZZZ',10,'__ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ_Z______ZZZ',10,'_ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ_____ZZZ',10,'_ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ_ZZZ',10,'_ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ',10,'_ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ',10,'_ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ',10,10,'╔═════════════════════════════════════════════════════════╗',10,'║                 Лабораторная работа №6                  ║',10,'║               Шапар Владислав,ИКБО-3-15                 ║',10,'║                        Вариант 31                       ║',10,'╚═════════════════════════════════════════════════════════╝',10,10	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_02\Lab6 (Uped).uum32masm|69
+LENLOGO:	EQU	*-TXT_LOGO	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_02\Lab6 (Uped).uum32masm|70
+	END	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_02\Lab6 (Uped).uum32masm|72

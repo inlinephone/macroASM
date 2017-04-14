@@ -1,0 +1,296 @@
+﻿; ЛАБОРАТОРНАЯ РАБОТА №6, ВАРИАНТ 6
+; Гасанова А.А., ИКБО-03-15
+lab5:	start	0
+
+begin:	;outarr	mas,len
+	;-------- outp string -> text_privet len -> lprivet --------
+	clear x
+outpc_AA: ldb a, text_privet[x]
+	wd #0
+	incm x, lprivet
+	jlt outpc_AA
+	;-------- END OF outp--------
+newtest:
+	;-------- razdelitel1 --------
+	clear x
+	ld r1,#57
+	ld a,#42
+next_AB: wd #0
+	incr x,r1
+	jlt next_AB
+	ld a,#10
+	wd #0
+	ld a,#13
+	wd #0
+	ld a,#42
+	wd #0
+	clear x
+	ld r1,#4
+	ld a,#9
+next2_AC: wd #0
+	incr x,r1
+	jlt next2_AC
+	;-------- END OF razdelitel1--------
+	;-------- outp string -> texttest len -> ltexttest --------
+	clear x
+outpc_AD: ldb a, texttest[x]
+	wd #0
+	incm x, ltexttest
+	jlt outpc_AD
+	;-------- END OF outp--------
+	;-------- razdelitel2 --------
+	clear x
+	ld r1,#4
+	ld a,#9
+next_AE: wd #0
+	incr x,r1
+	jlt next_AE
+	ld a,#32
+	wd #0
+	wd #0
+	ld a,#42
+	wd #0
+	ld a,#10
+	wd #0
+	ld a,#13
+	wd #0
+	clear x
+	ld r1,#57
+	ld a,#42
+next2_AF: wd #0
+	incr x,r1
+	jlt next2_AF
+	;-------- END OF razdelitel2--------
+	;-------- outp string -> textPosl len -> ltextPosl --------
+	clear x
+outpc_AG: ldb a, textPosl[x]
+	wd #0
+	incm x, ltextPosl
+	jlt outpc_AG
+	;-------- END OF outp--------
+	clear	r2
+	clear	x
+	clear	r7
+	clear	r0
+	clear	r3
+imput:	rd	#1
+	comp	a, #keyEnter
+	jeq	endimput
+	comp	a, #keySpace
+	jeq	next
+	comp	a, #keyMinus
+	jeq	minuss
+	comp	a,#47
+	jlt	imput
+	comp	a,#58
+	jgt	imput
+ok:	comp	r2, #intmax
+	jgt	imput
+	wd	#0
+	sub	a, #48
+	mul	r2, #10
+	addr	r2, a
+	jmp	imput
+minuss:	comp	r2,#0
+	jgt	imput
+	comp	r7,#0
+	jgt	imput
+	wd	#0
+	ld	r7,#1
+	jmp	imput
+next:	call	min
+	st	r2,mass[x]
+	clear	r2
+	add	x,#4
+	wd	#0
+	jmp	imput
+endimput:	call	min
+	st	r2,mass[x]
+	clear	r2
+	add	x,#4
+	mov	r3,x
+	st	x,lenght
+	clear	x
+	;-------- endl --------
+	ld a,#10
+	wd #0
+	ld a,#13
+	wd #0
+	;-------- END OF endl--------
+	;-------- outp string -> text_mass len -> ltext_mass --------
+	clear x
+outpc_AH: ldb a, text_mass[x]
+	wd #0
+	incm x, ltext_mass
+	jlt outpc_AH
+	;-------- END OF outp--------
+	;-------- Outarr massive -> mass len -> lenght --------
+	clear x
+outloop_AI: ld a, mass[x]
+PrintNumber_AJ: clear r0
+	ld r3, #-1
+	push r3
+	compr a, r0
+	jlt minus_AK
+	mov r2, a
+pushdigit_AL: ld r3, #10
+	divr r2, r3
+	mulr r3, r2
+	subr a, r3
+	push a
+	compr r2, r0
+	jeq PrintN_AM
+	mov a, r2
+	jmp pushdigit_AL
+PrintN_AM: ld r3, #-1
+nextDigit_AN: pop a
+	compr a, r3
+	jeq endprint_AO
+	add a,#48
+	wd #0
+	jmp nextDigit_AN
+minus_AK: clear r2
+	subr r2, a
+	ld a, #45
+	wd #0
+	mov a, r2
+	jmp pushdigit_AL
+endprint_AO: ld a,#32
+	wd #0
+	add x,#4
+	comp x,lenght
+	jlt outloop_AI
+	ld a,#10
+	wd #0
+	ld a,#13
+	wd #0
+oaend_AP:
+	;-------- END OF Outarr--------
+	ld	r2,#0
+	;-------- poisk massive -> mass len -> lenght --------
+	clear x
+poisk_AQ: ld a, mass[x]
+	comp a, #0
+	jgt continue_AR
+	jlt continue_AR
+	jmp found_AS
+found_AS: incr r2, r2
+continue_AR: add x,#4
+	comp x, lenght
+	jlt poisk_AQ
+poiskend_AT:
+	;-------- END OF poisk--------
+	comp	r2,#0
+	jgt	outanswer
+	;-------- outp string -> textNO len -> ltextNO --------
+	clear x
+outpc_AU: ldb a, textNO[x]
+	wd #0
+	incm x, ltextNO
+	jlt outpc_AU
+	;-------- END OF outp--------
+	jmp	exit
+	
+outanswer:	st	r2,result
+	;-------- outp string -> textA len -> ltextA --------
+	clear x
+outpc_AV: ldb a, textA[x]
+	wd #0
+	incm x, ltextA
+	jlt outpc_AV
+	;-------- END OF outp--------
+	;-------- PrintNumber numb -> result --------
+	ld a,result
+	clear r0
+	ld r3, #-1
+	push r3
+	compr a, r0
+	jlt 1minus_AW
+	mov r2, a
+1pushdigit_AX: ld r3, #10
+	divr r2, r3
+	mulr r3, r2
+	subr a, r3
+	add a, #48
+	push a
+	compr r2, r0
+	jeq 1PrintN_AY
+	mov a, r2
+	jmp 1pushdigit_AX
+1PrintN_AY: ld r3, #-1
+1nextDigit_AZ: pop a
+	compr a, r3
+	jeq 1exitprn_BA
+	wd #0
+	jmp 1nextDigit_AZ
+1minus_AW: clear r2
+	subr r2, a
+	ld a, #45
+	wd #0
+	mov a, r2
+	jmp 1pushdigit_AX
+1exitprn_BA: clear a
+	;-------- END OF PrintNumber--------
+	
+exit:
+	;-------- outp string -> textretry len -> ltextretry --------
+	clear x
+outpc_BB: ldb a, textretry[x]
+	wd #0
+	incm x, ltextretry
+	jlt outpc_BB
+	;-------- END OF outp--------
+yn:	rd	#1
+	comp	a, #121
+	jeq	yes
+	comp	a, #110
+	jeq	no
+	jmp	yn
+
+yes:	wd	#0
+	;-------- endl --------
+	ld a,#10
+	wd #0
+	ld a,#13
+	wd #0
+	;-------- END OF endl--------
+	jmp	newtest
+no:	wd	#0
+	ret
+
+min:	comp	r7,#0
+	jeq	endmin
+	subr	r0, r2
+	mov	r2,r0
+	clear	r0
+	clear	r7
+endmin:	ret
+
+mass:	resw	20
+lenght:	word	*-mass
+result:	resw	1
+
+mas:	word	1,2,3,4,5
+len:	word	*-mas
+
+keyEnter:	equ	13	; код клавиши Enter
+keySpace:	equ	32	; код клавиши Пробел
+keyMinus:	equ	45	; код клавиши "-"
+intmax:	word	2147483647
+
+text_privet:	byte	'Лабораторная работа №6, Гасанова А.А., ИКБО-03-15, Вариант 6.'
+lprivet:	word	* - text_privet
+text_mass:	byte	'Исходный массив: '
+ltext_mass:	word	*- text_mass
+textA:	byte	'Количество нулевых элементов: '
+ltextA:	word	*-textA
+textNO:	byte	'В массиве нет нулевых элементов.'
+ltextNO:	word	*-textNO
+textretry:	byte	10, 13, 'Новый тест? Y/N: '
+ltextretry:	word	*-textretry
+textPosl:	byte	10, 13, 'Вводите целые числа, отделяя их пробелами. Enter - конец ввода: '
+ltextPosl:	word	* - textPosl
+texttest:	byte	'НОВЫЙ ТЕСТ'
+ltexttest:	word	* - texttest
+
+	End

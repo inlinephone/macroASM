@@ -1,0 +1,172 @@
+; --< This file is created automatically by UUM-32 Macroassembler >--
+; --< Do not change or remove this comment >--
+LAB6:	START	0	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_04\roan6.uum32masm|2
+BEGIN:	CLEAR	R0	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_04\roan6.uum32masm|5
+	CLEAR	R11	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_04\roan6.uum32masm|6
+	CLEAR	X	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_04\roan6.uum32masm|7
+	LD	R4, #4	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_04\roan6.uum32masm|8
+	LD	R5, #BOR1	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_04\roan6.uum32masm|9
+	LD	R6, #BOR2	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_04\roan6.uum32masm|10
+	LD	R7, #N	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_04\roan6.uum32masm|11
+
+; MACRO	LOGOUT	LOGO,LLOG
+	CLEAR	X	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|4
+__LG_0_0:	LDB	A,LOGO[X]	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|5
+	WD	#0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|6
+	INCM	X,#LLOG	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|7
+	JLT	__LG_0_0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|8
+; MEND
+
+
+; MACRO	VIEW	STR,LSTR
+	LD	X,#STR	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|13
+	LD	R9,#LSTR	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|14
+	CLEAR	A	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|15
+	ADDR	R9,X	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|16
+__VILOOP_1_0:	+LDB	A,0[X]	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|17
+	WD	#0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|18
+	INCR	X,R9	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|19
+	JLT	__VILOOP_1_0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|20
+; MEND
+
+	LD	X,#MASS	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_04\roan6.uum32masm|14
+	ADDR	R7,X	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_04\roan6.uum32masm|15
+
+; MACRO	MVIEW
+__MLOOP_3_0:	+LD	A,0[X]	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|64
+	+CALL	NP	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|65
+	LD	A,#32	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|66
+	WD	#0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|67
+	ADDR	X,R4	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|68
+	COMPR	X,R7	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|69
+	JLT	__MLOOP_3_0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|70
+; MEND
+
+	LD	R7,#N	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_04\roan6.uum32masm|17
+
+; MACRO	PPSEARCH	MASS
+	CLEAR	X	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|76
+__SEARCH_4_0:	+LD	A,MASS[X]	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|77
+	COMPR	A,R5	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|78
+	JLT	__NEXT_4_0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|79
+	COMPR	A,R0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|80
+	JLT	__NEXT_4_0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|81
+	JEQ	__NEXT_4_0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|82
+	COMPR	A,R6	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|83
+	JGT	__NEXT_4_0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|84
+	INCR	R11,R11	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|85
+__NEXT_4_0:	ADDR	X,R4	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|87
+	COMPR	X,R7	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|88
+	JLT	__SEARCH_4_0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|89
+; MEND
+
+	COMP	R11,#0	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_04\roan6.uum32masm|19
+	JEQ	TW	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_04\roan6.uum32masm|20
+
+; MACRO	VIEW	ONEM,LONEM
+	LD	X,#ONEM	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|13
+	LD	R9,#LONEM	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|14
+	CLEAR	A	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|15
+	ADDR	R9,X	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|16
+__VILOOP_1_1:	+LDB	A,0[X]	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|17
+	WD	#0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|18
+	INCR	X,R9	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|19
+	JLT	__VILOOP_1_1	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|20
+; MEND
+
+	MOV	A,R11	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_04\roan6.uum32masm|22
+
+; MACRO	NUMPRINT
+	LD	R3, #-1	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|26
+	PUSH	R3	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|27
+	COMPR	A, R0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|28
+	JLT	__MINUS_2_0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|29
+	MOV	R2, A	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|30
+__PLUS_2_0:	LD	R3, #10	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|31
+	DIVR	R2, R3	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|32
+	MULR	R3, R2	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|33
+	SUBR	A, R3	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|34
+	ADD	A, #48	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|35
+	PUSH	A	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|36
+	COMPR	R2, R0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|37
+	JEQ	__STARTPRINT_2_0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|38
+	MOV	A, R2	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|39
+	JMP	__PLUS_2_0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|40
+__STARTPRINT_2_0:	LD	R3, #-1	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|43
+__NEXTD_2_0:	POP	A	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|44
+	COMPR	A, R3	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|45
+	JEQ	__RETURNNP_2_0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|46
+	WD	#0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|47
+	JMP	__NEXTD_2_0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|48
+__RETURNNP_2_0:	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|50
+	RET	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|51
+__MINUS_2_0:	CLEAR	R2	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|54
+	SUBR	R2, A	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|55
+	LD	A, #45	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|56
+	WD	#0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|57
+	MOV	A, R2	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|58
+	JMP	__PLUS_2_0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|59
+; MEND
+
+	JMP	RETURN	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_04\roan6.uum32masm|24
+
+TW:	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_04\roan6.uum32masm|25
+; MACRO	VIEW	TWOM,LTWOM
+	LD	X,#TWOM	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|13
+	LD	R9,#LTWOM	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|14
+	CLEAR	A	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|15
+	ADDR	R9,X	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|16
+__VILOOP_1_2:	+LDB	A,0[X]	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|17
+	WD	#0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|18
+	INCR	X,R9	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|19
+	JLT	__VILOOP_1_2	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|20
+; MEND
+
+RETURN:	RET	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_04\roan6.uum32masm|26
+
+NP:	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_04\roan6.uum32masm|27
+; MACRO	NUMPRINT
+	LD	R3, #-1	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|26
+	PUSH	R3	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|27
+	COMPR	A, R0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|28
+	JLT	__MINUS_2_1	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|29
+	MOV	R2, A	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|30
+__PLUS_2_1:	LD	R3, #10	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|31
+	DIVR	R2, R3	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|32
+	MULR	R3, R2	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|33
+	SUBR	A, R3	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|34
+	ADD	A, #48	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|35
+	PUSH	A	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|36
+	COMPR	R2, R0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|37
+	JEQ	__STARTPRINT_2_1	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|38
+	MOV	A, R2	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|39
+	JMP	__PLUS_2_1	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|40
+__STARTPRINT_2_1:	LD	R3, #-1	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|43
+__NEXTD_2_1:	POP	A	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|44
+	COMPR	A, R3	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|45
+	JEQ	__RETURNNP_2_1	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|46
+	WD	#0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|47
+	JMP	__NEXTD_2_1	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|48
+__RETURNNP_2_1:	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|50
+	RET	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|51
+__MINUS_2_1:	CLEAR	R2	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|54
+	SUBR	R2, A	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|55
+	LD	A, #45	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|56
+	WD	#0	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|57
+	MOV	A, R2	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|58
+	JMP	__PLUS_2_1	;@@meta@@d:\development\qt\projects\macroassemler uum32\test\test_04\roan6b.uum32asm|59
+; MEND
+
+STR:	BYTE	'Лабораторная работа 6',13,10,'Студент группы ИКБО-3-15 Рожанская Алена',13,10,'Вариант 24',13,10,'Вывести количество положительных элементов массива в границах [-5, 10]',13,10,'Элементы массива: '	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_04\roan6.uum32masm|30
+LSTR:	EQU	*-STR	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_04\roan6.uum32masm|31
+ONEM:	BYTE	13,10,'Положительных элементов: '	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_04\roan6.uum32masm|32
+LONEM:	EQU	*-ONEM	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_04\roan6.uum32masm|33
+TWOM:	BYTE	13,10,'Нет положительных элементов, удовлетворяющих условию'	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_04\roan6.uum32masm|34
+LTWOM:	EQU	*-TWOM	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_04\roan6.uum32masm|35
+LOGO:	BYTE	13,10,'.#................................#...................................',10,'.#..#######.....#..#.............#.........**............#.......#....',10,'.#..............#########.......####.....**...*..**.....#.*.....#.*...',10,'.#...##...........#..#..##....#....#..#........**......#...*...#...*..',10,'.##...#######......#.........#......##................................',10	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_04\roan6.uum32masm|36
+LLOG:	EQU	*-LOGO	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_04\roan6.uum32masm|37
+BOR1:	EQU	-5	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_04\roan6.uum32masm|38
+BOR2:	EQU	10	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_04\roan6.uum32masm|39
+MASS:	WORD	1	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_04\roan6.uum32masm|44
+N:	EQU	*-MASS	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_04\roan6.uum32masm|47
+	END	;@@meta@@D:\Development\Qt\Projects\Macroassemler UUM32\test\test_04\roan6.uum32masm|49

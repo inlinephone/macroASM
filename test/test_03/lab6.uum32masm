@@ -1,0 +1,118 @@
+﻿; ЛАБОРАТОРНАЯ РАБОТА №6, ВАРИАНТ 6
+; Гасанова А.А., ИКБО-03-15
+include	"lab6.uum32mlb"
+lab5:	start	0
+
+begin:	;outarr	mas,len
+	outp	text_privet,lprivet
+newtest:	razdelitel1
+	outp	texttest,ltexttest
+	razdelitel2
+	outp	textPosl,ltextPosl
+	clear	r2
+	clear	x
+	clear	r7
+	clear	r0
+	clear	r3
+imput:	rd	#1
+	comp	a, #keyEnter
+	jeq	endimput
+	comp	a, #keySpace
+	jeq	next
+	comp	a, #keyMinus
+	jeq	minuss
+	comp	a,#47
+	jlt	imput
+	comp	a,#58
+	jgt	imput
+ok:	comp	r2, #intmax
+	jgt	imput
+	wd	#0
+	sub	a, #48
+	mul	r2, #10
+	addr	r2, a
+	jmp	imput
+minuss:	comp	r2,#0
+	jgt	imput
+	comp	r7,#0
+	jgt	imput
+	wd	#0
+	ld	r7,#1
+	jmp	imput
+next:	call	min
+	st	r2,mass[x]
+	clear	r2
+	add	x,#4
+	wd	#0
+	jmp	imput
+endimput:	call	min
+	st	r2,mass[x]
+	clear	r2
+	add	x,#4
+	mov	r3,x
+	st	x,lenght
+	clear	x
+	endl
+	outp	text_mass,ltext_mass
+	Outarr	mass, lenght
+	ld	r2,#0
+	poisk	mass, lenght
+	comp	r2,#0
+	jgt	outanswer
+	outp	textNO,ltextNO
+	jmp	exit
+	
+outanswer:	st	r2,result
+	outp	textA,ltextA
+	PrintNumber	result
+	
+exit:	outp	textretry,ltextretry
+yn:	rd	#1
+	comp	a, #121
+	jeq	yes
+	comp	a, #110
+	jeq	no
+	jmp	yn
+
+yes:	wd	#0
+	endl
+	jmp	newtest
+no:	wd	#0
+	ret
+
+min:	comp	r7,#0
+	jeq	endmin
+	subr	r0, r2
+	mov	r2,r0
+	clear	r0
+	clear	r7
+endmin:	ret
+
+mass:	resw	20
+lenght:	word	*-mass
+result:	resw	1
+
+mas:	word	1,2,3,4,5
+len:	word	*-mas
+
+keyEnter:	equ	13	; код клавиши Enter
+keySpace:	equ	32	; код клавиши Пробел
+keyMinus:	equ	45	; код клавиши "-"
+intmax:	word	2147483647
+
+text_privet:	byte	'Лабораторная работа №6, Гасанова А.А., ИКБО-03-15, Вариант 6.'
+lprivet:	word	* - text_privet
+text_mass:	byte	'Исходный массив: '
+ltext_mass:	word	*- text_mass
+textA:	byte	'Количество нулевых элементов: '
+ltextA:	word	*-textA
+textNO:	byte	'В массиве нет нулевых элементов.'
+ltextNO:	word	*-textNO
+textretry:	byte	10, 13, 'Новый тест? Y/N: '
+ltextretry:	word	*-textretry
+textPosl:	byte	10, 13, 'Вводите целые числа, отделяя их пробелами. Enter - конец ввода: '
+ltextPosl:	word	* - textPosl
+texttest:	byte	'НОВЫЙ ТЕСТ'
+ltexttest:	word	* - texttest
+
+	End

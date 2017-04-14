@@ -1,0 +1,216 @@
+#include "macrocalldeployer.h"
+#include <QDebug>
+
+QString MacroCallDeployer::additionalPostfix;
+
+quint16 MacroCallDeployer::deployMacroCall(const QString &_line, QStringList &deployedMacroCode)
+{
+    bool findSign; // Нашёлся ли в строке вызов одного из библиотечных макросов
+    auto pathPair = findMacroInDB(_line, findSign); // pathPair type: QPair <QString::size_type, DBPath>
+
+    if(findSign == false)
+        return 0;
+
+    //Добавим вначало deployedMacroCode метку, если такая есть в line перед вызовом macro
+    QString::size_type semicolonIndex = _line.indexOf(':');
+    QString line;
+
+    if(semicolonIndex != -1)
+    {
+        deployedMacroCode += QString();
+
+        for(QString::size_type iter = 0; iter <= semicolonIndex; ++iter)
+           deployedMacroCode.last() += _line[iter];
+
+        semicolonIndex++;
+
+        for(; semicolonIndex < _line.size(); ++semicolonIndex)
+            line += _line[semicolonIndex];
+
+        line = line.simplified();
+
+        pathPair = findMacroInDB(line, findSign);
+    }
+
+    else
+        line = _line;
+
+
+    // Устанавливаем paramIndex за имя макроса, чтобы вытащить параметры
+    auto paramIndex = pathPair.first + (*database)[pathPair.second.libIndex].macroLabelVec[pathPair.second.macroIndex].macroLabel.size();
+
+    bool correctSign; // Смотри 3 выходной параметр функции extractMacroParameters
+    auto factParamList = extractMacroParameters(line, paramIndex, correctSign);
+
+    if(correctSign == false)
+        return 2;
+
+    // Сравним количество фактических и формальных параметров
+    if(compareFactAndFormParameters(factParamList, {pathPair.second.libIndex, pathPair.second.macroIndex}) == false)
+        return 2;
+
+    // Вставим комментарий с именем подставляемого макроса
+    QString commentAddString = ";-------- " + (*database)[pathPair.second.libIndex].macroLabelVec[pathPair.second.macroIndex].macroLabel;
+
+    for(QStringList::size_type iter = 0; iter < factParamList.size(); ++iter)
+    {
+        commentAddString += ' ' + (*database)[pathPair.second.libIndex].macroLabelVec[pathPair.second.macroIndex].paramList[iter]
+                + " -> " + factParamList[iter];
+    }
+
+    deployedMacroCode += commentAddString + " --------";
+
+    // Подставим код макроопределения в место вызова, при этом заменяя параметры и подставляя новые имена меток
+    insertMacroCode({pathPair.second.libIndex, pathPair.second.macroIndex}, factParamList, deployedMacroCode);
+
+    // Обозначим конец макроопределения комментарием
+    // Вставим комментарий с именем подставляемого макроса
+    deployedMacroCode += ";-------- END OF " + (*database)[pathPair.second.libIndex].macroLabelVec[pathPair.second.macroIndex].macroLabel
+                       + "--------";
+
+    return 1;
+}
+
+
+QPair<QString::size_type, DBPath> MacroCallDeployer::findMacroInDB(const QString &line, bool& findSign)
+{
+    QRegularExpression regExp;
+
+    regExp.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
+
+    findSign = false;
+
+    for(Database::size_type iter = 0; iter < (*database).size(); ++iter)
+    {
+        for(QVector<MacroItem>::size_type in_iter = 0; in_iter < (*database)[iter].macroLabelVec.size(); ++in_iter)
+        {
+            regExp.setPattern("(^|\\s)" + (*database)[iter].macroLabelVec[in_iter].macroLabel + "(\\s+\\w?|\\s?$)");
+            QString::size_type indexInLine = line.indexOf(regExp);
+
+            if(indexInLine != -1)
+            {
+                DBPath retPath;
+
+                retPath.libIndex   = iter;
+                retPath.macroIndex = in_iter;
+
+                findSign = true;
+
+                return qMakePair(indexInLine, retPath);
+            }
+        }
+    }
+
+    return {};
+}
+
+QString MacroCallDeployer::interchangeParameters(const QString &line, const QStringList& factParamList, const QStringList& formParamList)
+{
+    QRegularExpression regExpSearch({}, QRegularExpression::CaseInsensitiveOption);
+    QString outString(line);
+
+    for(QStringList::size_type iter = 0; iter < formParamList.size(); ++iter)
+    {
+        regExpSearch.setPattern("&" + formParamList[iter]);
+        QString::size_type paramIndex = line.indexOf(regExpSearch);
+
+        if(paramIndex == -1)
+            continue;
+        else
+            outString.replace(regExpSearch, factParamList[iter]);
+    }
+
+    return outString;
+}
+
+bool MacroCallDeployer::compareFactAndFormParameters(const QStringList &factParamList, DBPath pathToFormParamList)
+{
+    if(factParamList.size() != (*database)[pathToFormParamList.libIndex].macroLabelVec[pathToFormParamList.macroIndex].paramList.size())
+    {
+        *console < "Количество формальных и фактических параметров не совпадает";
+        return false;
+    }
+
+    else
+        return true;
+}
+
+QStringList MacroCallDeployer::extractMacroParameters(const QString &line, QString::size_type paramIndex, bool &correctSign)
+{
+    QStringList factParamList; // Список фактических параметров
+
+    factParamList.push_back(QString()); // Пустая строка, чтобы последующий вызов factParamList.last() был корректным
+
+    correctSign = true;
+
+    // Вытаскиваем параметры из строки
+    for(auto i = paramIndex; i < line.size(); ++i)
+    {
+        if(line[i].isLetterOrNumber() || line[i] == '_' || line[i] == '#')
+            factParamList.last() += line[i];
+        else if(line[i].isSpace())
+            continue;
+        else if(line[i] == ',')
+            factParamList.push_back(QString());
+        else
+        {
+            *console < "Некорректный символ в определении параметров";
+            correctSign = false;
+        }
+    }
+
+    // Удалим пустые параметры | прим. подобного определения: macro_label ,,,
+    deleteEmptyParameters(factParamList);
+
+    return qMove(factParamList);
+}
+
+void MacroCallDeployer::deleteEmptyParameters(QStringList &paramList)
+{
+    for(QStringList::size_type iter = 0; iter < paramList.size(); )
+    {
+        if(paramList[iter].isEmpty())
+            paramList.removeAt(iter);
+        else
+            ++iter;
+    }
+}
+
+void MacroCallDeployer::insertMacroCode(const DBPath& replaceMacroPath, const QStringList& factParamList, QStringList& deployedMacroCode)
+{
+    QRegularExpression regExp("\\$\\w+", QRegularExpression::CaseInsensitiveOption);
+
+    QVector <QPair <QString, QString>> replaceLabelTable;
+
+    for(QStringList::size_type iter = 0; iter < (*database)[replaceMacroPath.libIndex].macroLabelVec[replaceMacroPath.macroIndex].sourceCode.size(); ++iter)
+    {
+        QString macroLine = (*database)[replaceMacroPath.libIndex].macroLabelVec[replaceMacroPath.macroIndex].sourceCode[iter];
+        QRegularExpressionMatch match = regExp.match(macroLine);
+
+        while(match.hasMatch())
+        {
+            bool isLabelFoundInTable = false;
+
+            for(auto iterator : replaceLabelTable)
+            {
+                if(iterator.first.compare(match.captured(), Qt::CaseInsensitive) == 0)
+                {
+                    isLabelFoundInTable = true;
+                    macroLine.replace(match.capturedStart(), match.capturedLength(), iterator.second);
+                }
+            }
+
+            if(!isLabelFoundInTable)
+            {
+                macroLine.replace(match.capturedStart(), match.capturedLength(), match.captured().remove(0, 1) + '_' + additionalPostfix);
+                replaceLabelTable.push_back({match.captured(), match.captured().remove(0, 1) + '_' + additionalPostfix});
+                incAdditionalPostfix();
+            }
+
+            match = regExp.match(macroLine);
+        }
+
+        deployedMacroCode +=
+        interchangeParameters(macroLine, factParamList, (*database)[replaceMacroPath.libIndex].macroLabelVec[replaceMacroPath.macroIndex].paramList);
+    }
+}

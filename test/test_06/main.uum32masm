@@ -1,0 +1,9 @@
+﻿include "library.uum32mlb"
+
+enter:	start	0
+
+metka
+
+ret
+
+end

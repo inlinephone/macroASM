@@ -1,0 +1,36 @@
+﻿;Вывод строки
+vyvstr:	macro	&stroka,&len
+	ld	b, #&stroka
+	clear	x
+$vyv:	ldb	a,0[x][b]	;загрузка строки в a
+	wd	#0	;вывод символа
+	incm	x,#&len	;переход к следующему символу строки
+	jlt	$vyv	;на начало цикла
+	mend
+;Вывод числа любой длины
+outchislo:	macro	
+	clear	r3	;счётчик цифр
+$instek:	mov	b,a	;создание копии элемента массива
+	div	b,#10
+	mul	b,#10
+	subr	b,a	;выделение последней цифры числа
+	mul	b,#-1
+	push	b	;запись её в стек
+	addb	r3,#1	;счётчик количества цифр в стеке
+	div	a,#10	;деление a на 10
+	comp	a,#0	
+	jgt	$instek	;если a > 0, на начало цикла
+$outstek:	pop	a	;выталкивание из стека цифры
+	add	a,#48
+	wd	#0	;вывод цифры
+	sub	r3,#1	
+	comp	r3,#0	;проверка вывода всех цифр из стека
+	jgt	$outstek
+	mend
+;Перевод строки		
+endl:	macro
+	ld	a,#10
+	wd	#0
+	ld	a,#13
+	wd	#0
+	mend

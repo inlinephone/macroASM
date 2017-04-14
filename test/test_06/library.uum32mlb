@@ -1,0 +1,4 @@
+metka:	macro
+	jmp	$lbl
+$lbl:	jmp	$kek
+$kek:	mend

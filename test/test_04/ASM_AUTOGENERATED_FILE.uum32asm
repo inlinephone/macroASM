@@ -1,0 +1,165 @@
+﻿lab6:	start	0
+
+;***************************Код программы*****************
+begin:	clear	r0
+	clear	r11	;счетчик результата, сейчас =0
+	clear	x
+	ld	r4, #4	;r4=4 для перехода к след числу в массиве
+	ld	r5, #bor1	;r5=-5 граница 1
+	ld	r6, #bor2	;r6=10 граница 2
+	ld	r7, #N	;r7 - размер рабочего массива
+	;-------- logout logo -> Logo llog -> LLog --------
+	clear x
+LG_AA: ldb a,Logo[x]
+	wd #0
+	incm x,#LLog
+	jlt LG_AA
+	;-------- END OF logout--------
+	;-------- view txt -> str ltxt -> lstr --------
+	ld x,#str
+	ld r9,#lstr
+	clear a
+	addr r9,x
+ViLoop_AB: +ldb a,0[x]
+	wd #0
+	incr x,r9
+	jlt ViLoop_AB
+	;-------- END OF view--------
+	ld	x,#mass
+	addr	r7,x
+	;-------- mView --------
+mloop_AC: +ld a,0[x]
+	+call np
+	ld a,#32
+	wd #0
+	addr x,r4
+	compr x,r7
+	jlt mloop_AC
+	;-------- END OF mView--------
+	ld	r7,#N
+	;-------- ppsearch mass -> mass --------
+	clear x
+Search_AD: +ld a,mass[x]
+	compr a,r5
+	jlt Next_AE
+	compr a,r0
+	jlt Next_AE
+	jeq Next_AE
+	compr a,r6
+	jgt Next_AE
+	incr r11,r11
+Next_AE: addr x,r4
+	compr x,r7
+	jlt Search_AD
+	;-------- END OF ppsearch--------
+	comp	r11,#0
+	jeq	tw
+	;-------- view txt -> onem ltxt -> lonem --------
+	ld x,#onem
+	ld r9,#lonem
+	clear a
+	addr r9,x
+ViLoop_AF: +ldb a,0[x]
+	wd #0
+	incr x,r9
+	jlt ViLoop_AF
+	;-------- END OF view--------
+	mov	a,r11
+	;-------- NumPrint --------
+	ld r3, #-1
+	push r3
+	compr a, r0
+	jlt minus_AG
+	mov r2, a
+plus_AH: ld r3, #10
+	divr r2, r3
+	mulr r3, r2
+	subr a, r3
+	add a, #48
+	push a
+	compr r2, r0
+	jeq startPrint_AI
+	mov a, r2
+	jmp plus_AH
+startPrint_AI: ld r3, #-1
+nextD_AJ: pop a
+	compr a, r3
+	jeq returnNP_AK
+	wd #0
+	jmp nextD_AJ
+returnNP_AK:
+	ret
+minus_AG: clear r2
+	subr r2, a
+	ld a, #45
+	wd #0
+	mov a, r2
+	jmp plus_AH
+	;-------- END OF NumPrint--------
+	jmp	return
+tw:
+	;-------- view txt -> twom ltxt -> ltwom --------
+	ld x,#twom
+	ld r9,#ltwom
+	clear a
+	addr r9,x
+ViLoop_AL: +ldb a,0[x]
+	wd #0
+	incr x,r9
+	jlt ViLoop_AL
+	;-------- END OF view--------
+return:	ret
+np:
+	;-------- NumPrint --------
+	ld r3, #-1
+	push r3
+	compr a, r0
+	jlt minus_AM
+	mov r2, a
+plus_AN: ld r3, #10
+	divr r2, r3
+	mulr r3, r2
+	subr a, r3
+	add a, #48
+	push a
+	compr r2, r0
+	jeq startPrint_AO
+	mov a, r2
+	jmp plus_AN
+startPrint_AO: ld r3, #-1
+nextD_AP: pop a
+	compr a, r3
+	jeq returnNP_AQ
+	wd #0
+	jmp nextD_AP
+returnNP_AQ:
+	ret
+minus_AM: clear r2
+	subr r2, a
+	ld a, #45
+	wd #0
+	mov a, r2
+	jmp plus_AN
+	;-------- END OF NumPrint--------
+	
+;**************************Данные************************
+str:	byte	'Лабораторная работа 6',13,10,'Студент группы ИКБО-3-15 Рожанская Алена',13,10,'Вариант 24',13,10,'Вывести количество положительных элементов массива в границах [-5, 10]',13,10,'Элементы массива: '	
+lstr:	equ	*-str
+OneM:	byte	13,10,'Положительных элементов: '
+LOneM:	equ	*-OneM
+TwoM:	byte	13,10,'Нет положительных элементов, удовлетворяющих условию'
+LTwoM:	equ	*-TwoM
+Logo:	byte	13,10,'.#................................#...................................',10,'.#..#######.....#..#.............#.........**............#.......#....',10,'.#..............#########.......####.....**...*..**.....#.*.....#.*...',10,'.#...##...........#..#..##....#....#..#........**......#...*...#...*..',10,'.##...#######......#.........#......##................................',10
+LLog:	equ	*-Logo
+bor1:	equ	-5
+bor2:	equ	10
+	
+;***************************Test**************************						     такты & размер .uum32
+;mass: 	word 	-5, -4, -4, -1, -2, 0;			; "Нет положительных элементов" 	1)1547 458 | 2)1200 390 | 3)2221 525
+;mass: 	word 	1, 2, 3, 4, 5, 6, 7, 8, 10;			; "9" 					  1571 470 |   1150 402 |   2396 537
+mass: 	word 	1;			; "1" 					  1115 438 |   886  370 |   1637 505
+;mass: 	word 	1,2,3,4,5,6,7,8,9,10,1,1,1;			; ">9", "13" 				  1630 474 |   1186 406 |   2791 553
+;mass: 	word 	2147483647, 123456789, -123456789;	; +"Нет положительных элементов" 	  1450 446 |   1147 378 |   2741 513
+N:	equ	*-mass
+
+	end		

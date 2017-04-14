@@ -1,0 +1,176 @@
+﻿
+LAB6:	START	0
+
+; Заголовок:	ЛАБОРАТОРНАЯ РАБОТА №6. Шапар Владислав. ИКБО-3-15. ВАРИАНТ 31
+
+; --------------------ЗАДАНИЕ----------------------
+; Задание: Определить номер последнего нечетного элемента в массиве из 13 целочисленных констант.
+; 	Входные данные: Массив из целых чисел (13 элементов)
+;	Выходные данные: Текстовое сообщение
+;	Вариации текстовых сообщений:
+;		В результате работы программы обнаружено, что:
+;			ДАЛЕЕ ВОЗМОЖНЫ 3 КОНЦОВКИ
+;		1) 'В массиве нет нечетных элементов!'
+;		2) 'Номер последнего нечетного элемента больше 9!'
+;		3) 'Номер последнего нечетного элемента = ',#ЗНАЧЕНИЕ
+
+;=================****************   Вывод заголовка программы   **************=================================		
+
+	;-------- OUTLOGO LENLOGO -> LENLOGO TXT_LOGO -> TXT_LOGO --------
+	CLEAR X
+M0CLOGO_AA: LDB A,TXT_LOGO[X]
+	WD #0
+	INCM X,#LENLOGO
+	JLT M0CLOGO_AA
+	;-------- END OF OUTLOGO--------
+	;-------- OUTSTR LEN -> LENABOUT TXT -> TXT_ABOUT --------
+	LD R11,#LENABOUT
+	LD X,#TXT_ABOUT
+	ADDR R11,X
+M0C_AB: +LDB A,0[X]
+	WD #0
+	INCR X,R11
+	JLT M0C_AB
+	;-------- END OF OUTSTR--------
+;==================================   РЕШЕНИЕ ЗАДАЧИ   ================================================		
+	
+	;-------- ALG LENGTH -> LENGTH MASS -> MASS --------
+	CLEAR R0
+	LD R1,#-1
+	LD R2,#2
+	LD R3,#48
+	LD R4,#4
+	LD R10,#LENGTH
+	LD X,#MASS
+	MOV R11,X
+	ADDR R11,R10
+	LD R10,#10
+	CALL MOUTSTACK
+	LD X,#LENGTH
+	SUB X,#4
+LOAD_AC: +LD A,MASS[X]
+PROCESS_AD: COMPR A,R0
+	JLT ABS_AE
+	MOV R5,A
+	DIVR A,R2
+	MULR A,R2
+	INCR A,R5
+	JEQ RES_AF
+	SUBR X,R4
+	COMPR X,R1
+	JGT LOAD_AC
+	JMP RES_AF
+ABS_AE: MULR A,R1
+	JMP PROCESS_AD
+RES_AF:
+	;-------- END OF ALG--------
+;==============================*****   ПОДГОТОВКА РЕЗУЛЬТАТА И ЕГО ВЫВОД   *****============================================
+	LD	R2,MASS[X]
+	MOV	A,X	; Проверка результата по окончанию работы основного алгоритма
+	COMPR	A,R0	
+	JLT	MESSAGE1	; LAST = -1, не было найдено ни одного нечетного элемента
+	MOV	A,X	
+	DIVR	A,R4	; Перевод номера байта в номер элемента
+	ADD	A,#1
+	MOV	R6,A;
+	JMP	MESSAGE3	; Число найдено и удовлетворяет всем условиям
+MESSAGE1:	
+	;-------- OUTSTR LEN -> LEN0 TXT -> TXT_0 --------
+	LD R11,#LEN0
+	LD X,#TXT_0
+	ADDR R11,X
+M0C_AG: +LDB A,0[X]
+	WD #0
+	INCR X,R11
+	JLT M0C_AG
+	;-------- END OF OUTSTR--------
+	RET	
+MESSAGE3:	
+	;-------- OUTSTR LEN -> LENOK TXT -> TXT_OK --------
+	LD R11,#LENOK
+	LD X,#TXT_OK
+	ADDR R11,X
+M0C_AH: +LDB A,0[X]
+	WD #0
+	INCR X,R11
+	JLT M0C_AH
+	;-------- END OF OUTSTR--------
+	MOV	R7,R6
+	CALL	OUTSTACK
+	;-------- OUTSTR LEN -> LENOK2 TXT -> TXT_OK2 --------
+	LD R11,#LENOK2
+	LD X,#TXT_OK2
+	ADDR R11,X
+M0C_AI: +LDB A,0[X]
+	WD #0
+	INCR X,R11
+	JLT M0C_AI
+	;-------- END OF OUTSTR--------
+	MOV	R7,R2
+	CALL	OUTSTACK				
+	RET	
+	
+OUTSTACK:	
+	;-------- OUTNUM --------
+	CLEAR R8
+	COMPR R7,R0
+	JLT PUTMINUS_AJ
+CICLE_AK: MOV R5,R7
+	DIVR R7,R10
+	MOV A,R7
+	MULR A,R10
+	SUBR R5,A
+	MOV A,R5
+	PUSH A
+	ADD R8,#1
+	COMPR R7,R0
+	JGT CICLE_AK
+	JMP EXTRACT_AL
+PUTMINUS_AJ: LDB A,#45
+	WD #0
+	MULR R7,R1
+	JMP CICLE_AK
+EXTRACT_AL: POP A
+	ADDR A,R3
+	WD #0
+	SUB R8,#1
+	COMPR R8,R0
+	JGT EXTRACT_AL
+	RET
+	;-------- END OF OUTNUM--------
+MOUTSTACK:	
+	;-------- OUTMASS --------
+	JMP OUTMSS_AM
+BEFOREPART_AN: LDB A,#44
+	WD #0
+	LDB A,#32
+	WD #0
+OUTMSS_AM: +LD R7,0[X]
+	CALL OUTSTACK
+	ADD X,#4
+	COMPR X,R11
+	JLT BEFOREPART_AN
+	RET
+	;-------- END OF OUTMASS--------
+;===============================================  ДАННЫЕ  ==================================================================
+																																																
+MASS:	WORD	1,2,-3,4,5,-6,7,8,-9,10,11,-12,13	; Элемент номер 13		=	13	
+;MASS:	WORD	2,4,6,8,10,12,14,16,18,20		; Нет нечетного элемента 	
+;MASS:	WORD	1,-4,7,10,-125		; Элемент номер 5		=	-125	
+;MASS:	WORD	2,-2,2,-2,2,-2,2,-2,2,-2,2,-2	; Нет нечетного элемента   			
+;MASS:	WORD	429496725,-429496726		; Элемент номер 1		=	429496725	
+;MASS:	WORD	2,4,6,8,0,2,4,6,8,11		; Элемент номер 10		=	11
+;MASS:	WORD	2,4,6,8,0,2,4,6,81,10		; Элемент номер 9		=	81
+LENGTH:	EQU	*-MASS									
+TXT_0:	BYTE	')',10,'В результате работы программы обнаружено, что в массиве нет нечетных элементов!'	
+LEN0:	EQU	*-TXT_0			
+TXT_OK:	BYTE	')',10,'В результате работы программы обнаружено, что номер последнего нечетного элемента = '	
+LENOK:	EQU	*-TXT_OK
+TXT_OK2:	BYTE	' и его значение = '	
+LENOK2:	EQU	*-TXT_OK2
+TXT_ABOUT:	BYTE	'Задача: Определить номер последнего нечетного элемента в массиве из 13 целочисленных констант.',10,'На ввод был подан массив:',10,'MASS( '
+LENABOUT:	EQU	*-TXT_ABOUT
+TXT_LOGO:	BYTE	'_________Z',10,'________ZZZ',10,'______Z_ZZZZZ',10,'______ZZZZZZZZZ',10,'_______ZZZZZAZZZZ',10,'________ZZZZZZZZZZZZ',10,'_________ZZZZZZZZZ',10,'_________ZZZZZZZZZ',10,'__________ZZZZZZZZZZ',10,'_________ZZZZZZZZZZZZ',10,'_________ZZZZZZZZZZZZZZ',10,'_________ZZZZZZZZZZZZZZZ',10,'_________ZZZZZZZZZZZZZZZZZZ',10,'_________ZZZZZZZZZZZZZZZZZZZZ',10,'_________ZZZZZZZZZZZZZZZZZZZZZ',10,'__________ZZZZZZZZZZZZZZZZZZZZZZZZ',10,'___________ZZZZZZZZZZZZZZZZZZZZZZZZZZZZ',10,'___________ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ',10,'_____________ZZZZZZZZZZZZZZZZZZZZZZZZZZZZ',10,'______________ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ',10,'______________ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ',10,'_______________ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ',10,'_______________ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ',10,'________________ZZZZZ__ZZZ____ZZZZZZZZZZZZZZZZZZZ',10,'_________________ZZZ___ZZZ_____ZZZZZZZZZZZZZZZZZZZ',10,'_________________ZZZ___ZZZ_____ZZZZZZZZZZZZZZZZZZZZZZ___ZZ',10,'_________________ZZZ___ZZZ______ZZZZZZZZZZZZZZ_ZZZZZZZZZZZ',10,'_________________ZZ___ZZZ______ZZZZZZZZZZZZZZZ_ZZZZZZZZZZ',10,'________________ZZZZ___ZZ_________ZZZZZ_Z__ZZZZZ',10,'___________ZZZZZZZ_Z__ZZZ__________ZZZZZZ____ZZZ',10,'________ZZZZZZZZZZZZZZZZ_____________ZZZ_Z___ZZZ',10,'____ZZZZZZZZZZZZZZZZZZZZZZZZ_________ZZZZ_____ZZZ',10,'___ZZZZZZZZZZZZZZZZZZZZZZZZZZZZ______ZZZZ______ZZZ',10,'__ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ_Z______ZZZ',10,'_ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ_____ZZZ',10,'_ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ_ZZZ',10,'_ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ',10,'_ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ',10,'_ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ',10,10,'╔═════════════════════════════════════════════════════════╗',10,'║                 Лабораторная работа №6                  ║',10,'║               Шапар Владислав,ИКБО-3-15                 ║',10,'║                        Вариант 31                       ║',10,'╚═════════════════════════════════════════════════════════╝',10,10
+LENLOGO:	EQU	*-TXT_LOGO				
+	
+	END

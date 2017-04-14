@@ -1,0 +1,183 @@
+;Лабораторная работа №6, студент Чирцов Н., ИКБО-3-15 Вариант 3
+;Номер первого положительного
+;r0 - счётчик первого положиетльного числа
+;r1,r2,r3 - используются в цикле вывода;
+;r4 - определяет ввод пробела
+;r5 - опепределяет ввод минуса
+;r6 - защита от повторного ввода минуса
+;r7 - определение ввода нуля
+lab6:	start	0
+;==============Вывод начального текста и массива===================
+Circlevyvstr:	
+	;-------- vyvstr stroka -> text len -> textlen --------
+	ld b, #text
+	clear x
+vyv_AA: ldb a,0[x][b]
+	wd #0
+	incm x,#textlen
+	jlt vyv_AA
+	;-------- END OF vyvstr--------
+vvod:	
+	;-------- vyvstr stroka -> text3 len -> text3len --------
+	ld b, #text3
+	clear x
+vyv_AB: ldb a,0[x][b]
+	wd #0
+	incm x,#text3len
+	jlt vyv_AB
+	;-------- END OF vyvstr--------
+	ld	r0,#1	;счётчик
+	ld	r4,#2	;0 - пробела не было
+	clear	r5	;0 - минуса не было
+	clear	r6	;0 - положительного числа не было
+	ld	r7,#-1	;0 - есть цифра не ноль
+;===============Ввод массива и фильтрование вводимых символов=======
+readfiltr:	rd	#1
+	comp	a,#45	;минус
+	jeq	minus
+	comp	a,#32	;пробел
+	jeq	space
+	comp	a,#13	;enter
+	jeq	enter
+	comp 	a,#48	;от '0'
+	jlt	readfiltr
+	comp 	a,#57	;до '9'
+	jgt	readfiltr
+	comp	r4,#0	;если пробела нет
+	jeq	cont
+	comp	r5,#1	;если был минус
+	jeq	cont
+	ld	r4,#0
+	comp	a,#48	;если был ноль
+	jeq	zero
+	ld	r7,#0	;появилась не нулевая цифра
+	ld	r6,#1	;положительное число
+zero:	wd	#0
+	comp	r7,#0	;было ли другое число кроме нуля
+	jeq	readfiltr
+	ld	r7,#1	;были пока только нули
+	jmp	readfiltr
+cont:	ld	r4,#0	;возвращает возможность увеличения счётчика при вводе пробела
+	ld	r5,#0	;можно вводить минус
+	wd	#0
+	jmp	readfiltr
+minus:	comp	r5,#1	;был ли до этого введён минус
+	jeq	readfiltr
+	comp	r4,#1	;был ли до этого введён пробел
+	jlt	readfiltr
+	wd	#0
+	ld	r5,#1	;был введён минус
+	jmp	readfiltr
+space:	comp	r5,#1	;если предыдущий символ минус - пробел не выводится
+	jeq	readfiltr
+	wd	#0
+	comp 	r4,#0	;был ли до этого введён пробел (0 - нет)
+	ld	r4,#1
+	jeq	nomer	;тогда переход на увеличение счётчика
+	ld	r7,#-1	;нулей не было
+	jmp	readfiltr
+enter:	comp	r5,#1	;запрет ввода enter, если введён только минус
+	jeq	readfiltr
+	;-------- endl --------
+	ld a,#10
+	wd #0
+	ld a,#13
+	wd #0
+	;-------- END OF endl--------
+	comp	r6,#1	;если есть положительное число, то выводим его номер
+	jeq	vyvnomer
+	jmp	netpol			
+;===============Вычисление номера элемента=========================	
+nomer:	comp	r7,#1	;если число только из нулей, то можно увеличить индекс
+	jeq	nm
+	comp	r6,#1	;если уже было положительное число, счётчик не увеличивается
+	jeq	readfiltr
+nm:	add 	r0,#1	;увеличение счётчика
+	jmp	readfiltr
+;=================Вывод номера элемента=============================
+vyvnomer:	
+	;-------- vyvstr stroka -> text1 len -> text1len --------
+	ld b, #text1
+	clear x
+vyv_AC: ldb a,0[x][b]
+	wd #0
+	incm x,#text1len
+	jlt vyv_AC
+	;-------- END OF vyvstr--------
+	mov	a,r0
+	;-------- outchislo --------
+	clear r3
+instek_AD: mov b,a
+	div b,#10
+	mul b,#10
+	subr b,a
+	mul b,#-1
+	push b
+	addb r3,#1
+	div a,#10
+	comp a,#0
+	jgt instek_AD
+outstek_AE: pop a
+	add a,#48
+	wd #0
+	sub r3,#1
+	comp r3,#0
+	jgt outstek_AE
+	;-------- END OF outchislo--------
+	;-------- endl --------
+	ld a,#10
+	wd #0
+	ld a,#13
+	wd #0
+	;-------- END OF endl--------
+	jmp	exit
+;================Вывод 'Нет положительных'=======================
+netpol:	
+	;-------- vyvstr stroka -> text2 len -> text2len --------
+	ld b, #text2
+	clear x
+vyv_AF: ldb a,0[x][b]
+	wd #0
+	incm x,#text2len
+	jlt vyv_AF
+	;-------- END OF vyvstr--------
+	jmp	exit
+;=============Запрос на продолжение выполнения программы==========================	
+exit:	
+	;-------- vyvstr stroka -> text4 len -> text4len --------
+	ld b, #text4
+	clear x
+vyv_AG: ldb a,0[x][b]
+	wd #0
+	incm x,#text4len
+	jlt vyv_AG
+	;-------- END OF vyvstr--------
+	rd	#1
+	wd	#0
+	comp	a,#121	;если введён 'y', то в начало программы
+	jeq	vvod
+	comp	a,#110	;если введён 'n', то в выйти из программы
+	jeq	return
+	;-------- endl --------
+	ld a,#10
+	wd #0
+	ld a,#13
+	wd #0
+	;-------- END OF endl--------
+	jmp	exit
+	
+return:	ret
+
+;=========Данные===========
+text:	byte	'Лабораторная работа №6, Чирцов Н., ИКБО-3-15, Вариант 3',10,13,'Номер первого положительного'
+textlen:	equ	*-text
+text1:	byte	'Номер первого положительного = '
+text1len:	equ	*-text1	
+text2:	byte	'Нет положительных!',10,13
+text2len:	equ	*-text2
+text3:	byte	10,13,'Введите целые числа, разделяя их пробелом',10,13,'Массив: '
+text3len:	equ	*-text3
+text4:	byte	'Продолжить тестирование? y/n',10,13
+text4len:	equ	*-text4
+
+	end

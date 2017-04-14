@@ -1,0 +1,148 @@
+00000000 | LAB6:            START    0                                                                                              | 
+00000000 | CIRCLEVYVSTR:                                                                                                            | 
+00000000 |                  LD       B, #TEXT                                                                                       | 140101eb
+00000004 |                  CLEAR    X                                                                                              | 2720
+00000006 | VYV_AA:          LDB      A,0[X][B]                                                                                      | 1550fff6
+0000000a |                  WD       #0                                                                                             | 3c000000
+0000000e |                  INCM     X,#TEXTLEN                                                                                     | 30020055
+00000012 |                  JLT      VYV_AA                                                                                         | 5700fff0
+00000016 | VVOD:                                                                                                                    | 
+00000016 |                  LD       B, #TEXT3                                                                                      | 14010273
+0000001a |                  CLEAR    X                                                                                              | 2720
+0000001c | VYV_AB:          LDB      A,0[X][B]                                                                                      | 1550ffe0
+00000020 |                  WD       #0                                                                                             | 3c000000
+00000024 |                  INCM     X,#TEXT3LEN                                                                                    | 30020035
+00000028 |                  JLT      VYV_AB                                                                                         | 5700fff0
+0000002c |                  LD       R0,#1                                                                                          | 14040001
+00000030 |                  LD       R4,#2                                                                                          | 14080002
+00000034 |                  CLEAR    R5                                                                                             | 2790
+00000036 |                  CLEAR    R6                                                                                             | 27a0
+00000038 |                  LD       R7,#-1                                                                                         | 140bffff
+0000003c | READFILTR:       RD       #1                                                                                             | 38000001
+00000040 |                  COMP     A,#45                                                                                          | 0c00002d
+00000044 |                  JEQ      MINUS                                                                                          | 53000068
+00000048 |                  COMP     A,#32                                                                                          | 0c000020
+0000004c |                  JEQ      SPACE                                                                                          | 5300007c
+00000050 |                  COMP     A,#13                                                                                          | 0c00000d
+00000054 |                  JEQ      ENTER                                                                                          | 53000094
+00000058 |                  COMP     A,#48                                                                                          | 0c000030
+0000005c |                  JLT      READFILTR                                                                                      | 5700ffdc
+00000060 |                  COMP     A,#57                                                                                          | 0c000039
+00000064 |                  JGT      READFILTR                                                                                      | 5b00ffd4
+00000068 |                  COMP     R4,#0                                                                                          | 0c080000
+0000006c |                  JEQ      CONT                                                                                           | 53000030
+00000070 |                  COMP     R5,#1                                                                                          | 0c090001
+00000074 |                  JEQ      CONT                                                                                           | 53000028
+00000078 |                  LD       R4,#0                                                                                          | 14080000
+0000007c |                  COMP     A,#48                                                                                          | 0c000030
+00000080 |                  JEQ      ZERO                                                                                           | 53000008
+00000084 |                  LD       R7,#0                                                                                          | 140b0000
+00000088 |                  LD       R6,#1                                                                                          | 140a0001
+0000008c | ZERO:            WD       #0                                                                                             | 3c000000
+00000090 |                  COMP     R7,#0                                                                                          | 0c0b0000
+00000094 |                  JEQ      READFILTR                                                                                      | 5300ffa4
+00000098 |                  LD       R7,#1                                                                                          | 140b0001
+0000009c |                  JMP      READFILTR                                                                                      | 4f00ff9c
+000000a0 | CONT:            LD       R4,#0                                                                                          | 14080000
+000000a4 |                  LD       R5,#0                                                                                          | 14090000
+000000a8 |                  WD       #0                                                                                             | 3c000000
+000000ac |                  JMP      READFILTR                                                                                      | 4f00ff8c
+000000b0 | MINUS:           COMP     R5,#1                                                                                          | 0c090001
+000000b4 |                  JEQ      READFILTR                                                                                      | 5300ff84
+000000b8 |                  COMP     R4,#1                                                                                          | 0c080001
+000000bc |                  JLT      READFILTR                                                                                      | 5700ff7c
+000000c0 |                  WD       #0                                                                                             | 3c000000
+000000c4 |                  LD       R5,#1                                                                                          | 14090001
+000000c8 |                  JMP      READFILTR                                                                                      | 4f00ff70
+000000cc | SPACE:           COMP     R5,#1                                                                                          | 0c090001
+000000d0 |                  JEQ      READFILTR                                                                                      | 5300ff68
+000000d4 |                  WD       #0                                                                                             | 3c000000
+000000d8 |                  COMP     R4,#0                                                                                          | 0c080000
+000000dc |                  LD       R4,#1                                                                                          | 14080001
+000000e0 |                  JEQ      NOMER                                                                                          | 5300002c
+000000e4 |                  LD       R7,#-1                                                                                         | 140bffff
+000000e8 |                  JMP      READFILTR                                                                                      | 4f00ff50
+000000ec | ENTER:           COMP     R5,#1                                                                                          | 0c090001
+000000f0 |                  JEQ      READFILTR                                                                                      | 5300ff48
+000000f4 |                  LD       A,#10                                                                                          | 1400000a
+000000f8 |                  WD       #0                                                                                             | 3c000000
+000000fc |                  LD       A,#13                                                                                          | 1400000d
+00000100 |                  WD       #0                                                                                             | 3c000000
+00000104 |                  COMP     R6,#1                                                                                          | 0c0a0001
+00000108 |                  JEQ      VYVNOMER                                                                                       | 5300001c
+0000010c |                  JMP      NETPOL                                                                                         | 4f00007e
+00000110 | NOMER:           COMP     R7,#1                                                                                          | 0c0b0001
+00000114 |                  JEQ      NM                                                                                             | 53000008
+00000118 |                  COMP     R6,#1                                                                                          | 0c0a0001
+0000011c |                  JEQ      READFILTR                                                                                      | 5300ff1c
+00000120 | NM:              ADD      R0,#1                                                                                          | 04040001
+00000124 |                  JMP      READFILTR                                                                                      | 4f00ff14
+00000128 | VYVNOMER:                                                                                                                | 
+00000128 |                  LD       B, #TEXT1                                                                                      | 14010240
+0000012c |                  CLEAR    X                                                                                              | 2720
+0000012e | VYV_AC:          LDB      A,0[X][B]                                                                                      | 1550fece
+00000132 |                  WD       #0                                                                                             | 3c000000
+00000136 |                  INCM     X,#TEXT1LEN                                                                                    | 3002001f
+0000013a |                  JLT      VYV_AC                                                                                         | 5700fff0
+0000013e |                  MOV      A,R0                                                                                           | 6f04
+00000140 |                  CLEAR    R3                                                                                             | 2770
+00000142 | INSTEK_AD:       MOV      B,A                                                                                            | 6f10
+00000144 |                  DIV      B,#10                                                                                          | 2c01000a
+00000148 |                  MUL      B,#10                                                                                          | 2801000a
+0000014c |                  SUBR     B,A                                                                                            | 8b10
+0000014e |                  MUL      B,#-1                                                                                          | 2801ffff
+00000152 |                  PUSH     B                                                                                              | 1f10
+00000154 |                  ADDB     R3,#1                                                                                          | 04070001
+00000158 |                  DIV      A,#10                                                                                          | 2c00000a
+0000015c |                  COMP     A,#0                                                                                           | 0c000000
+00000160 |                  JGT      INSTEK_AD                                                                                      | 5b00ffde
+00000164 | OUTSTEK_AE:      POP      A                                                                                              | 2300
+00000166 |                  ADD      A,#48                                                                                          | 04000030
+0000016a |                  WD       #0                                                                                             | 3c000000
+0000016e |                  SUB      R3,#1                                                                                          | 08070001
+00000172 |                  COMP     R3,#0                                                                                          | 0c070000
+00000176 |                  JGT      OUTSTEK_AE                                                                                     | 5b00ffea
+0000017a |                  LD       A,#10                                                                                          | 1400000a
+0000017e |                  WD       #0                                                                                             | 3c000000
+00000182 |                  LD       A,#13                                                                                          | 1400000d
+00000186 |                  WD       #0                                                                                             | 3c000000
+0000018a |                  JMP      EXIT                                                                                           | 4f00001a
+0000018e | NETPOL:                                                                                                                  | 
+0000018e |                  LD       B, #TEXT2                                                                                      | 1401025f
+00000192 |                  CLEAR    X                                                                                              | 2720
+00000194 | VYV_AF:          LDB      A,0[X][B]                                                                                      | 1550fe68
+00000198 |                  WD       #0                                                                                             | 3c000000
+0000019c |                  INCM     X,#TEXT2LEN                                                                                    | 30020014
+000001a0 |                  JLT      VYV_AF                                                                                         | 5700fff0
+000001a4 |                  JMP      EXIT                                                                                           | 4f000000
+000001a8 | EXIT:                                                                                                                    | 
+000001a8 |                  LD       B, #TEXT4                                                                                      | 140102a8
+000001ac |                  CLEAR    X                                                                                              | 2720
+000001ae | VYV_AG:          LDB      A,0[X][B]                                                                                      | 1550fe4e
+000001b2 |                  WD       #0                                                                                             | 3c000000
+000001b6 |                  INCM     X,#TEXT4LEN                                                                                    | 3002001e
+000001ba |                  JLT      VYV_AG                                                                                         | 5700fff0
+000001be |                  RD       #1                                                                                             | 38000001
+000001c2 |                  WD       #0                                                                                             | 3c000000
+000001c6 |                  COMP     A,#121                                                                                         | 0c000079
+000001ca |                  JEQ      VVOD                                                                                           | 5300fe48
+000001ce |                  COMP     A,#110                                                                                         | 0c00006e
+000001d2 |                  JEQ      RETURN                                                                                         | 53000014
+000001d6 |                  LD       A,#10                                                                                          | 1400000a
+000001da |                  WD       #0                                                                                             | 3c000000
+000001de |                  LD       A,#13                                                                                          | 1400000d
+000001e2 |                  WD       #0                                                                                             | 3c000000
+000001e6 |                  JMP      EXIT                                                                                           | 4f00ffbe
+000001ea | RETURN:          RET                                                                                                     | 63
+000001eb | TEXT:            BYTE     'Лабораторная работа №6, Чирцов Н., ИКБО-3-15, Вариант 3',10,13,'Номер первого положительного' | cbe0e1eef0e0f2eef0ede0ff20f0e0e1eef2e020b9362c20d7e8f0f6eee220cd2e2c20c8cac1ce2d332d31352c20c2e0f0e8e0edf220330a0dcdeeece5f020efe5f0e2eee3ee20efeeebeee6e8f2e5ebfcedeee3ee
+00000240 | TEXTLEN:         EQU      *-TEXT                                                                                         | 
+00000240 | TEXT1:           BYTE     'Номер первого положительного = '                                                              | cdeeece5f020efe5f0e2eee3ee20efeeebeee6e8f2e5ebfcedeee3ee203d20
+0000025f | TEXT1LEN:        EQU      *-TEXT1                                                                                        | 
+0000025f | TEXT2:           BYTE     'Нет положительных!',10,13                                                                     | cde5f220efeeebeee6e8f2e5ebfcedfbf5210a0d
+00000273 | TEXT2LEN:        EQU      *-TEXT2                                                                                        | 
+00000273 | TEXT3:           BYTE     10,13,'Введите целые числа, разделяя их пробелом',10,13,'Массив: '                             | 0a0dc2e2e5e4e8f2e520f6e5ebfbe520f7e8f1ebe02c20f0e0e7e4e5ebffff20e8f520eff0eee1e5ebeeec0a0dcce0f1f1e8e23a20
+000002a8 | TEXT3LEN:        EQU      *-TEXT3                                                                                        | 
+000002a8 | TEXT4:           BYTE     'Продолжить тестирование? y/n',10,13                                                           | cff0eee4eeebe6e8f2fc20f2e5f1f2e8f0eee2e0ede8e53f20792f6e0a0d
+000002c6 | TEXT4LEN:        EQU      *-TEXT4                                                                                        | 
+000002c6 |                  END                                                                                                     | 
+
